@@ -15,31 +15,31 @@
     <div id="container">
         <div id="display">
             <div id="display-container">
-                <output id="previous">0</p>
-                <output id="current">&nbsp;</p>
+                <output id="previous">&nbsp;</output>
+                <output id="current">0</output>
             </div>
             
         </div>
         <div id="buttons-container">
-                <button id="clear">AC</button>
-                <button id="delete">C</button>
-                <button id="percentage">&percnt;</button>
-                <button id="divide">&divide;</button>
-                <button id="seven">7</button>
-                <button id="eight">8</button>
-                <button id="nine">9</button>
-                <button id="multiply">X</button>
-                <button id="four">4</button>
-                <button id="five">5</button>
-                <button id="six">6</button>
-                <button id="subtract">-</button>
-                <button id="one">1</button>
-                <button id="two">2</button>
-                <button id="three">3</button>
-                <button id="add">+</button>
-                <button id="zero">0</button>
-                <button id="decimal">.</button>
-                <button id="equal">=</button>
+                <button id="clear" class="delete">AC</button>
+                <button id="delete"  class="delete">C</button>
+                <button id="percentage" class="operation" data-key="&percnt;" data-value="remainder">&percnt;</button>
+                <button id="divide" class="operation" data-key="&divide;" data-value="divide">&divide;</button>
+                <button id="seven" class="digit" data-key="7" data-value="7">7</button>
+                <button id="eight" class="digit" data-key="8" data-value="8">8</button>
+                <button id="nine" class="digit" data-key="9" data-value="9">9</button>
+                <button id="multiply" class="operation" data-key="x" data-value="multiply">X</button>
+                <button id="four" class="digit" data-key="4" data-value="4">4</button>
+                <button id="five" class="digit" data-key="5" data-value="5">5</button>
+                <button id="six" class="digit" data-key="6" data-value="6">6</button>
+                <button id="subtract" class="operation" data-key="-" data-value="subtract">-</button>
+                <button id="one" class="digit" data-key="1" data-value="1">1</button>
+                <button id="two" class="digit" data-key="2" data-value="2">2</button>
+                <button id="three" class="digit" data-key="3" data-value="3">3</button>
+                <button id="add" class="operation" data-key="+" data-value="add">+</button>
+                <button id="zero" class="digit" data-key="0" data-value="0"">0</button>
+                <button id="decimal" class="dot" data-key="." data-value="dot">.</button>
+                <button id="equal" class="equal" data-key="=" data-value="equal">=</button>
             </div>
         </div>
     </div>
