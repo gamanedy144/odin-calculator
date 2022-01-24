@@ -1,2 +1,3 @@
 # odin-calculator
-Calculator Project
+Calculator Project for The Odin Project
+Made with HTML, CSS and Javascript
