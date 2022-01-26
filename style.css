@@ -39,14 +39,18 @@ body{
     box-shadow: #8b8b8b 1px 1px;
     /* height: 100px; */
 }
-#display-container p, output{
+#display-container output{
     display: block;
     border: none;
     width: 100%;
     text-align: right;
 }
-#previous{
+.hidden{
+    display: none;
     font-size: 20px;
+}
+#previous{
+    font-size: 16px;
 }
 #current{
     font-size: 24px;
