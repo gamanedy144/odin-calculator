@@ -34,93 +34,90 @@ function remainder(value1, value2){
 
 const curr = document.querySelector('#current');
 const prev = document.querySelector('#previous');
-const digits = document.querySelectorAll('.digit');
+
 const hiddenP = document.querySelector('.hidden');
+
+
 let digitPressed = false;
 let operationDoneBefore = false;
-let exceptions = 'divide multiply remainder';
-digits.forEach(digit => {
-    digit.addEventListener('click', e =>{
-        if(equalPressed == true){
-            hiddenP.classList.remove('hidden');
-            prev.textContent = "";
-            prevValue = 0;
-            equalPressed = false;
-            operationDoneBefore = false;
-            dotPreviouslyPressed = false;
-            console.log('I am here');
-        }       // FIX DIGIT WHEN EQUAL WAS PRESSED BEFORE
-        if(digit.dataset.value == 0 && digitPressed == false){
-            digitPressed = false;
-        }
-        else{
-            if(digitPressed == false){
-                curr.textContent = digit.dataset.value;
-                digitPressed = true;
-            }
-            else{
-                curr.textContent += digit.dataset.value;
-                digitPressed = true;
-            }
-            
-        }     
-    })
-});
-
-const operations = document.querySelectorAll('.operation');
+let exceptions = 'divide remainder';
 let prevValue = 0;
 let currValue;
 let lastOperation;
 let prevFunctionName;
-operations.forEach(operation =>{
-    operation.addEventListener('click', e =>{
-        
-        let functionName = operation.dataset.value;
-        currValue = parseFloat(curr.textContent);
-        console.log(`START currValue = ${currValue}   prevValue = ${prevValue} \n prevFunctionName = ${prevFunctionName} digitPressed = ${digitPressed} equalPressed = ${equalPressed}`);
-        console.log(`operationDoneBefore = ${operationDoneBefore}`);
+let equalPressed = false;
+let dotPreviouslyPressed = false;
 
-        if(prevFunctionName == 'divide' && currValue == 0){
-            prev.textContent = parseFloat(prev.textContent);
-        }
-        else if(operationDoneBefore == false && digitPressed == true){
-            
-            prev.textContent = `${curr.textContent}`;
-            
-        }
-        else if(equalPressed == false){
-            let operationResult = operate(prevFunctionName, prevValue, currValue)
-            prev.textContent = `${operationResult}`;
+function digitFunction(digit){
+    if(equalPressed == true){
+        hiddenP.classList.remove('hidden');
+        prev.textContent = "";
+        prevValue = 0;
+        equalPressed = false;
+        operationDoneBefore = false;
+        dotPreviouslyPressed = false;
+        // console.log('I am here');
+    }       // FIX DIGIT WHEN EQUAL WAS PRESSED BEFORE
+    if(digit.dataset.value == 0 && digitPressed == false){
+        digitPressed = false;
+    }
+    else{
+        if(digitPressed == false){
+            curr.textContent = digit.dataset.value;
+            digitPressed = true;
         }
         else{
-            prev.textContent = curr.textContent;
-            equalPressed = false;
+            curr.textContent += digit.dataset.value;
+            digitPressed = true;
         }
+        
+    }     
+}
+function operationFunction(operation){
+        
+    let functionName = operation.dataset.value;
+    currValue = parseFloat(curr.textContent);
+    // console.log(`START currValue = ${currValue}   prevValue = ${prevValue} \n prevFunctionName = ${prevFunctionName} digitPressed = ${digitPressed} equalPressed = ${equalPressed}`);
+    // console.log(`operationDoneBefore = ${operationDoneBefore}`);
 
-        prevValue = parseFloat(prev.textContent);
-        prev.textContent +=  ` ${operation.dataset.key} `;
-        curr.textContent = "0";
-        currValue = parseFloat(curr.textContent);
-        digitPressed = false;
-        operationDoneBefore = true;
-        prevFunctionName = functionName;
-        lastOperation = operation;
-        dotPreviouslyPressed = false;
-        hiddenP.classList.add('hidden');
-        console.log(`END currValue = ${currValue}   prevValue = ${prevValue} \n prevFunctionName = ${prevFunctionName} digitPressed = ${digitPressed} equalPressed = ${equalPressed}`)
-        console.log(`operationDoneBefore = ${operationDoneBefore}`);
-    })
-});
-let equalPressed = false;
-const equal = document.querySelector('#equal');
-equal.addEventListener('click', e =>{
+    if(exceptions.includes(prevFunctionName) && currValue == 0){
+        prev.textContent = parseFloat(prev.textContent);
+    }
+    else if(operationDoneBefore == false && digitPressed == true){
+        
+        prev.textContent = `${curr.textContent}`;
+        
+    }
+    else if(equalPressed == false){
+        let operationResult = operate(prevFunctionName, prevValue, currValue)
+        prev.textContent = `${operationResult}`;
+    }
+    else{
+        prev.textContent = curr.textContent;
+        equalPressed = false;
+    }
+
+    prevValue = parseFloat(prev.textContent);
+    prev.textContent +=  ` ${operation.dataset.operator} `;
+    curr.textContent = "0";
+    currValue = parseFloat(curr.textContent);
+    digitPressed = false;
+    operationDoneBefore = true;
+    prevFunctionName = functionName;
+    lastOperation = operation;
+    dotPreviouslyPressed = false;
+    hiddenP.classList.add('hidden');
+    // console.log(`END currValue = ${currValue}   prevValue = ${prevValue} \n prevFunctionName = ${prevFunctionName} digitPressed = ${digitPressed} equalPressed = ${equalPressed}`)
+    // console.log(`operationDoneBefore = ${operationDoneBefore}`);
+}
+function equalFunction(){
     if(prevFunctionName != undefined && equalPressed == false){
 
         currValue = parseFloat(curr.textContent);
-        prev.textContent = `${prevValue} ${lastOperation.dataset.key} ${currValue} =`;
+        prev.textContent = `${prevValue} ${lastOperation.dataset.operator} ${currValue} =`;
         curr.textContent = operate(prevFunctionName, prevValue, currValue);
-        prevValue = parseFloat(curr);
-        if(prevValue % 1 == 0){
+        prevValue = parseFloat(curr.textContent);
+        if(Number.isInteger(prevValue)){
             dotPreviouslyPressed = false;
         }
         equalPressed = true;
@@ -136,18 +133,17 @@ equal.addEventListener('click', e =>{
     }
 
     return 0;
-});
-
-
-const deleteOne = document.querySelector('#delete');
-
-deleteOne.addEventListener('click', e=>{
+}
+function deleteOneFunction(){
     //delete the last character of the current number entered
     //if there is no number entered, do nothing
     //if there was a previous value entered, delete the last character of that number
-    console.log('hello');
-    if(digitPressed == true){
+    if(digitPressed == true || equalPressed == true){
         curr.textContent = curr.textContent.slice(0,-1);
+        prev.textContent = "";
+        prevValue = 0;
+        hiddenP.classList.remove('hidden');
+
     }
     else{
         curr.textContent = ("" + parseFloat(prev.textContent)).slice(0,-1);
@@ -155,12 +151,12 @@ deleteOne.addEventListener('click', e=>{
         hiddenP.classList.remove('hidden');
         digitPressed = true;
     }
-
-});
-
-const dot = document.querySelector('#dot');
-let dotPreviouslyPressed = false;
-dot.addEventListener('click', e=>{
+    if(isNaN(parseFloat(curr.textContent))){
+        curr.textContent = '0';
+        digitPressed = false;
+    }
+}
+function dotFunction(){
     if(parseFloat(curr.textContent) == 0 && dotPreviouslyPressed == false){
         dotPreviouslyPressed = true;
         curr.textContent +='.';
@@ -188,10 +184,8 @@ dot.addEventListener('click', e=>{
         hiddenP.classList.remove('hidden');
         dotPreviouslyPressed = true;
     }
-});
-
-const allClear = document.querySelector('#clear');
-allClear.addEventListener('click', e=>{
+}
+function allClearFunction(){
     hiddenP.classList.remove('hidden');
     prev.textContent = "";
     prevValue = 0;
@@ -200,4 +194,77 @@ allClear.addEventListener('click', e=>{
     dotPreviouslyPressed = false;
     digitPressed = false;
     curr.textContent = '0';
-})
+}
+
+const digits = document.querySelectorAll('.digit');
+digits.forEach(digit => {
+    digit.addEventListener('click', e => digitFunction(digit));
+});
+
+const operations = document.querySelectorAll('.operation');
+operations.forEach(operation =>{
+    operation.addEventListener('click', e => operationFunction(operation));
+});
+
+const equal = document.querySelector('#equal');
+equal.addEventListener('click', e => equalFunction(e));
+
+
+const deleteOne = document.querySelector('#delete');
+deleteOne.addEventListener('click', e => deleteOneFunction(e));
+
+const dot = document.querySelector('#dot');
+dot.addEventListener('click', e => dotFunction(e));
+
+const allClear = document.querySelector('#clear');
+allClear.addEventListener('click', e=>allClearFunction(e));
+
+const keys = document.querySelectorAll('.key');
+const arrayKeys = [...keys];
+
+window.addEventListener('keydown', function(e) {
+    let key;
+    if(e.keyCode >= '96' && e.keyCode <= '111'){
+        key = document.querySelector(`.key[data-keyNumpad="${e.keyCode}`);
+    }
+    else{
+        key = document.querySelector(`.key[data-key="${e.keyCode}`);
+    }
+    
+
+    if(key.dataset.key == '53'){
+        if(e.shiftKey){
+            operationFunction(key);
+        }
+        else {
+            const fiveKey = document.querySelector('#five');
+            digitFunction(fiveKey);
+        }
+    }
+    else if(key.dataset.key == '187'){
+        if(e.shiftKey){
+            const addKey = document.querySelector('#add');
+            operationFunction(addKey);
+        }
+        else equalFunction(key);
+
+    }
+    else if(key.classList.value.includes('digit')){
+        digitFunction(key);
+    }
+    else if(key.classList.value.includes('operation')){
+        operationFunction(key);
+    }
+    else if(key.classList.value.includes('equal')){
+        equalFunction(key);
+    }
+    else if(key.classList.value.includes('dot')){
+        dotFunction(key);
+    }
+    else if(key.classList.value.includes('delete')){
+        deleteOneFunction(key);
+    }
+    
+
+    // console.log(e);
+});
