@@ -241,14 +241,19 @@ window.addEventListener('keydown', function(e) {
             digitFunction(fiveKey);
         }
     }
-    else if(key.dataset.key == '187'){
-        if(e.shiftKey){
-            const addKey = document.querySelector('#add');
-            operationFunction(addKey);
-        }
-        else equalFunction(key);
-
-    }
+    // else if(key.dataset.key == '187'){
+    //     if(e.keyCode == key.dataset.keyNumpad){
+    //         const addKey = document.querySelector('#add');
+    //         operationFunction(addKey);
+    //     }
+    //     else{
+    //         if(e.shiftKey){
+    //         const addKey = document.querySelector('#add');
+    //         operationFunction(addKey);
+    //         }
+    //         else equalFunction(key);
+    //     }
+    // }
     else if(key.classList.value.includes('digit')){
         digitFunction(key);
     }
