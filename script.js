@@ -195,32 +195,60 @@ function allClearFunction(){
     digitPressed = false;
     curr.textContent = '0';
 }
-
+function addAnimation(key, typeOfKey){
+    key.classList.add(`clicked-${typeOfKey}`);
+    key.classList.add('noHover');
+}
 const digits = document.querySelectorAll('.digit');
 digits.forEach(digit => {
-    digit.addEventListener('click', e => digitFunction(digit));
+    digit.addEventListener('click', e => {
+        digitFunction(digit);
+        addAnimation(digit, 'digit');
+    });
 });
 
 const operations = document.querySelectorAll('.operation');
 operations.forEach(operation =>{
-    operation.addEventListener('click', e => operationFunction(operation));
+    operation.addEventListener('click', e => {
+        operationFunction(operation);
+        addAnimation(operation, 'operation');
+    })
 });
 
 const equal = document.querySelector('#equal');
-equal.addEventListener('click', e => equalFunction(e));
+equal.addEventListener('click', e => {
+    equalFunction(e);
+    addAnimation(equal, 'equal');
+});
 
 
 const deleteOne = document.querySelector('#delete');
-deleteOne.addEventListener('click', e => deleteOneFunction(e));
+deleteOne.addEventListener('click', e => {
+    deleteOneFunction(e);
+    addAnimation(deleteOne, 'delete');
+});
 
 const dot = document.querySelector('#dot');
-dot.addEventListener('click', e => dotFunction(e));
+dot.addEventListener('click', e => {
+    dotFunction(e);
+    addAnimation(dot, 'dot');
+});
 
 const allClear = document.querySelector('#clear');
-allClear.addEventListener('click', e=>allClearFunction(e));
+allClear.addEventListener('click', e=> {
+    allClearFunction(e);
+    addAnimation(allClear, 'delete');
+});
+allClear.addEventListener('transitionend', removeTransition)
 
+function removeTransition(e){
+    if(e.propertyName !== 'transform') return;
+    let classOfE = e.target.className.split(" ")[0];
+    this.classList.remove(`clicked-${classOfE}`);
+    this.classList.remove('noHover');
+} 
 const keys = document.querySelectorAll('.key');
-const arrayKeys = [...keys];
+keys.forEach(key => key.addEventListener('transitionend', removeTransition));
 
 window.addEventListener('keydown', function(e) {
     let key;
@@ -235,10 +263,12 @@ window.addEventListener('keydown', function(e) {
     if(key.dataset.key == '53'){
         if(e.shiftKey){
             operationFunction(key);
+            addAnimation(key, 'operation');
         }
         else {
             const fiveKey = document.querySelector('#five');
             digitFunction(fiveKey);
+            addAnimation(fiveKey, 'digit');
         }
     }
     // else if(key.dataset.key == '187'){
@@ -256,18 +286,23 @@ window.addEventListener('keydown', function(e) {
     // }
     else if(key.classList.value.includes('digit')){
         digitFunction(key);
+        addAnimation(key, 'digit');
     }
     else if(key.classList.value.includes('operation')){
         operationFunction(key);
+        addAnimation(key, 'operation');
     }
     else if(key.classList.value.includes('equal')){
         equalFunction(key);
+        addAnimation(key, 'equal');
     }
     else if(key.classList.value.includes('dot')){
         dotFunction(key);
+        addAnimation(key, 'dot');
     }
     else if(key.classList.value.includes('delete')){
         deleteOneFunction(key);
+        addAnimation(key, 'delete');
     }
     
 

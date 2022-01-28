@@ -75,6 +75,7 @@ button{
     border-radius: 100%;
     display: inline-block;
     box-shadow: #8b8b8b 0.5px 0.5px;
+    transition: all 0.05s;
 }
 button#equal{
     grid-column: 3/5;
@@ -84,16 +85,38 @@ button:hover{
     transform: translateY(-2.5px);
     box-shadow: #585858 2px 2px;
 }
-.digit:hover, .dot:hover{
+.clicked-digit, .clicked-dot{
+    transform: translateY(4.5px);
+    box-shadow: #585858 0px -2px;
     background-color: orange;
-    
 }
-.operation:hover{
+.digit:hover, .dot:hover{
+    background-color: rgb(255, 206, 116);  
+}
+.clicked-operation{
+    transform: translateY(4.5px);
+    box-shadow: #585858 0px -2px;
     background-color: royalblue;
 }
+.operation:hover{
+    background-color: rgb(110, 139, 226);
+}
+.clicked-delete{
+    transform: translateY(4.5px);
+    box-shadow: #585858 0px -2px;
+    background-color: rgba(255,0,0,0.7);
+}
 .delete:hover{
-    background-color: rgba(255, 0, 0, 0.7);
+    background-color: rgba(255, 100, 100, 0.7);
+}
+.clicked-equal{
+    transform: translateY(4.5px);
+    box-shadow: #585858 0px -2px;
+    background-color: rgba(24, 153, 24, 0.505);
 }
 #equal:hover{
-    background-color: rgba(51, 178, 1, 0.6);
+    background-color: rgba(132, 211, 101, 0.6);
+}
+.noHover{
+    pointer-events: none;
 }
